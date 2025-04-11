@@ -5,7 +5,7 @@
 #include "../include/token.h"
 #include "../include/parser.h"
 
-//edited w github
+//this works
 
 int main(int argc,char** argv){
     if (argc <2){
