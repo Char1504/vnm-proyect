@@ -27,14 +27,38 @@ void start_parser( Tokenlist* list,const char* source) {
         else {
             //its an instruccion
             int instr = parser_get_instruction(lex);
-            add_token_list(list, create_token(INST, instr, line));
+            if(instr >= 0)
+                add_token_list(list, create_token(INST, instr, line));
+            else
+                printf("Syntax Error: no such intruction '%s'\n",lex );
+                return;
         }
 
         if(source[i]== '\n') {
+            //new line
             line++;
         }
 
+        else if (source[i] == '\0'){
+            //end of file
+
+            break;
+            
+        }
         lexi =0;
         i++;
-    }
+
+        
+}
+}
+
+int parser_get_int(const char* buf){
+
+    
+
+}
+TokenInst parser_get_instruction(const char* buf){
+
+    
+
 }
