@@ -1,4 +1,3 @@
-
 vtr::def "palo1": (0,0), 5, 90;
 
 vtr::show "palo1";
