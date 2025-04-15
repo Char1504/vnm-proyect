@@ -14,7 +14,9 @@ enum _P_status {
 typedef enum _P_status P_status;
  
 P_status start_parser( Tokenlist* list,const char* source);
-int parser_get_int(const char* buf);
+int parser_get_num(const char* buf);
 TokenInst parser_get_instruction(const char* buf);
+
+TokenInst parser_get_type(const char* buf);
 
 #endif

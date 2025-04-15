@@ -3,17 +3,29 @@
 
 
 enum _TokenType {
-    INST, 
-    INTEGER
+    VECTOR,
+    MATRIX,
+    
 };
 
+typedef enum _TokenType TokenType;
+
 enum _TokenInst{
-    PUSH, 
-    ADD, 
-    RETURN
+    DEFINE,
+    SHOW,
+    HIDE
 };
 
 typedef enum _TokenInst TokenInst;
+
+enum _TokenNums{
+    INT,
+    BOOL,
+    XCORD,
+    YCORD
+};
+
+
 
 struct _Token {
 

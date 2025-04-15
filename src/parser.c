@@ -1,6 +1,6 @@
 #include "../include/parser.h"
 
-void start_parser( Tokenlist* list,const char* source) {
+P_status start_parser( Tokenlist* list,const char* source) {
 
     char lex[256];
     int lexi =0;
@@ -20,19 +20,35 @@ void start_parser( Tokenlist* list,const char* source) {
         if(strncmp(lex, "int ", 4) == 0){
             //this is an integer
 
-            int integ = parser_get_int(lex);
-            add_token_list(list, create_token(INTEGER, integ, line));
+            int integ = parser_get_num(lex);
+            add_token_list(list, create_token(INT, integ, line));
         }
         
-        else {
-            //its an instruccion
+        else if(strncmp(lex, "def", 3) == 0) {
+            //its defining something
             int instr = parser_get_instruction(lex);
             if(instr >= 0)
-                add_token_list(list, create_token(INST, instr, line));
+                add_token_list(list, create_token(DEFINE, instr, line));
             else
                 printf("Syntax Error: no such intruction '%s'\n",lex );
-                return;
+                return SINTAX_ERROR;
         }
+        else if(strncmp(lex, "::vtr", 5) == 0) {
+            //its a vector
+            int instr = parser_get_type(lex);
+            if(instr >= 0)
+                add_token_list(list, create_token(DEFINE, instr, line));
+            else
+                printf("Syntax Error: no such type '%s'\n",lex );
+                return SINTAX_ERROR;
+        }
+
+        if(source[i]== ';') {
+            //its the end of a command
+
+            line++;
+        }
+
 
         if(source[i]== '\n') {
             //new line
@@ -50,6 +66,7 @@ void start_parser( Tokenlist* list,const char* source) {
 
         
 }
+return SUCCESS;
 }
 
 int parser_get_int(const char* buf){
@@ -60,5 +77,9 @@ int parser_get_int(const char* buf){
 TokenInst parser_get_instruction(const char* buf){
 
     
+
+}
+TokenInst parser_get_type(const char* buf) {
+
 
 }
