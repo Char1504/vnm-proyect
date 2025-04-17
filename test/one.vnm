@@ -1,3 +1,4 @@
-vtr::def "palo1": (0,0), 5, 90;
 
-vtr::show "palo1";
+vtr::def "palo1" (0,0), 5, 90; //crear un vector "palo1" con un origen "(x,y)" una longitud "5" y un angulo de "90"
+
+vtr::show "palo1";//"mostrar" o devolver dicho vector
