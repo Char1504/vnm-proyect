@@ -1,49 +1,36 @@
-#ifndef TOKEN_VMF_H
-#define TOKEN_VMF_H
+#ifndef TOKEN_H
+#define TOKEN_H
 
-enum _TokenType {
-    VECTOR,
-    MATRIX
-};
-
-typedef enum _TokenType TokenType;
-
-enum _TokenInst {
+typedef enum _TokenType {
     DEFINE,
     SHOW,
-    HIDE
-};
-
-typedef enum _TokenInst TokenInst;
-
-enum _TokenNums {
+    VECTOR,
     INT,
-    BOOL,
-    XCORD,
-    YCORD,
     STRING,
     DELIMITER
-};
+} TokenType;
 
-struct _Token {
+typedef enum _TokenInst {
+    INST_DEFINE,
+    INST_SHOW,
+    INST_VECTOR
+} TokenInst;
+
+typedef struct {
     int type;
+    char* str; // Para almacenar cadenas (como "palo1")
     int data;
     int line;
-};
+} Token;
 
-typedef struct _Token Token;
-
-Token* create_token(int type, int data, int line);
-void destroy_token(Token *tok);
-
-struct _Tokenlist {
+typedef struct {
     Token** data;
-    int ptr;
     int size;
-};
+    int ptr;
+} Tokenlist;
 
-typedef struct _Tokenlist Tokenlist;
-
+Token* create_token(int type, int data, int line, const char* str);
+void destroy_token(Token* tok);
 void add_token_list(Tokenlist* list, Token* tok);
 Token* get_token_list(Tokenlist* list, int index);
 

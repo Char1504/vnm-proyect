@@ -1,6 +1,8 @@
 #include "../include/parser.h"
-#include <stdlib.h>  // Línea añadida para atoi()
+#include <stdlib.h>
+#include <string.h>
 #include <ctype.h>
+#include <stdio.h>
 
 P_status start_parser(Tokenlist* list, const char* source) {
     char lex[256];
@@ -16,40 +18,43 @@ P_status start_parser(Tokenlist* list, const char* source) {
         if (source[i] == '\0') break;
 
         if (source[i] == '"') {
-            lex[lexi++] = source[i++];
+            i++; // skip opening quote
             while (source[i] != '"' && source[i] != '\0') {
                 if (lexi < 255) lex[lexi++] = source[i++];
                 else return TOKEN_ERROR;
             }
-            if (source[i] == '"') lex[lexi++] = source[i++];
-            else return SINTAX_ERROR;
-            
-            add_token_list(list, create_token(STRING, 0, line));
+            lex[lexi] = '\0';
+            if (source[i] == '"') i++; // skip closing quote
+            add_token_list(list, create_token(STRING, 0, line, lex));
             continue;
         }
 
         if (strchr("(),;", source[i])) {
             lex[lexi++] = source[i++];
-            add_token_list(list, create_token(DELIMITER, lex[0], line));
+            lex[lexi] = '\0';
+            add_token_list(list, create_token(DELIMITER, lex[0], line, NULL));
             continue;
         }
 
-        while (!strchr(" \t\n\0(),;", source[i])) {
+        while (!strchr(" \t\n\0(),;\"", source[i])) {
             if (lexi < 255) lex[lexi++] = source[i++];
             else return TOKEN_ERROR;
         }
         lex[lexi] = '\0';
 
         if (strcmp(lex, "vtr::def") == 0) {
-            add_token_list(list, create_token(DEFINE, VECTOR, line));
-        } 
-        else if (strcmp(lex, "vtr::show") == 0) {
-            add_token_list(list, create_token(SHOW, 0, line));
-        } 
-        else if (isdigit(lex[0])) {
-            add_token_list(list, create_token(INT, atoi(lex), line));
+            add_token_list(list, create_token(DEFINE, 0, line, NULL));
         }
-        else {
+        else if (strcmp(lex, "vtr::show") == 0) {
+            add_token_list(list, create_token(SHOW, 0, line, NULL));
+        }
+        else if (isdigit(lex[0])) {
+            add_token_list(list, create_token(INT, atoi(lex), line, NULL));
+        }
+        else if (strcmp(lex, "vtr") == 0) {
+            add_token_list(list, create_token(VECTOR, 0, line, NULL));
+        }
+        else if (lex[0] != '\0') {
             printf("Error: Token desconocido '%s'\n", lex);
             return SINTAX_ERROR;
         }
@@ -58,19 +63,4 @@ P_status start_parser(Tokenlist* list, const char* source) {
         if (source[i] != '\0') i++;
     }
     return SUCCESS;
-}
-
-int parser_get_num(const char* buf) {
-    return atoi(buf);
-}
-
-TokenInst parser_get_instruction(const char* buf) {
-    if (strcmp(buf, "def") == 0) return DEFINE;
-    if (strcmp(buf, "show") == 0) return SHOW;
-    return -1;
-}
-
-TokenInst parser_get_type(const char* buf) {
-    if (strcmp(buf, "vtr") == 0) return (TokenInst)VECTOR;  // Cast añadido
-    return -1;  // Return añadido para todos los casos
 }
