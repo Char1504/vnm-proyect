@@ -4,22 +4,22 @@
 typedef enum _TokenType {
     DEFINE,
     SHOW,
-    HIDE,
     VECTOR,
     INT,
     STRING,
-    DELIMITER
+    DELIMITER,
+    LPAREN,
+    RPAREN,
+    COMMA,
+    ORIGIN,
+    LENGHT,
+    ANGLE,
+    UNKNOWN
 } TokenType;
-
-typedef enum _TokenInst {
-    INST_DEFINE,
-    INST_SHOW,
-    INST_VECTOR
-} TokenInst;
 
 typedef struct {
     int type;
-    char* str; // Para almacenar cadenas (como "palo1")
+    char* str; // Para almacenar cadenas (como "palo1", "origin", etc)
     int data;
     int line;
 } Token;
