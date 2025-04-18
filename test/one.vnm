@@ -1,10 +1,8 @@
 
-vtr::def "palo1" (0,0), 5, 90; 
-vtr::def "palo2" (0,0), 5, 90; 
-vtr::def "palo3" (0,0), 5, 90; 
-vtr::def "palo4" (0,0), 5, 90; 
+vtr::def "palo1" (7,8) , 5, 90 ; 
+
 
 vtr::show "palo1";
-vtr::show "palo2";
-vtr::show "palo3";
-vtr::show "palo4";
+vtr::show "palo1" origin;//el numero entre parentesis, deberia devolver: vector "palo1" showing origin: 7, 8
+vtr::show "palo1" lenght;//el segundo numero, deberia devolver: vector "palo1" showing lenght: 5
+vtr::show "palo1" angle;//el tercer numero, deberia devolver: vector "palo1" showing angle: 90 degrees

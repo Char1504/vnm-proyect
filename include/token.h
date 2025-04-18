@@ -4,6 +4,7 @@
 typedef enum _TokenType {
     DEFINE,
     SHOW,
+    HIDE,
     VECTOR,
     INT,
     STRING,

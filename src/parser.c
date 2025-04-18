@@ -48,6 +48,9 @@ P_status start_parser(Tokenlist* list, const char* source) {
         else if (strcmp(lex, "vtr::show") == 0) {
             add_token_list(list, create_token(SHOW, 0, line, NULL));
         }
+        else if (strcmp(lex, "vtr::hide") == 0) {
+            add_token_list(list, create_token(HIDE, 0, line, NULL));
+        }
         else if (isdigit(lex[0])) {
             add_token_list(list, create_token(INT, atoi(lex), line, NULL));
         }
@@ -55,7 +58,7 @@ P_status start_parser(Tokenlist* list, const char* source) {
             add_token_list(list, create_token(VECTOR, 0, line, NULL));
         }
         else if (lex[0] != '\0') {
-            printf("Error: Token desconocido '%s'\n", lex);
+            printf("Error: Unknown token '%s'\n", lex);
             return SINTAX_ERROR;
         }
 

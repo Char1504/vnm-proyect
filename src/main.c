@@ -4,13 +4,13 @@
 
 int main(int argc, char* argv[]) {
     if (argc < 2) {
-        printf("Uso: %s archivo.vmf\n", argv[0]);
+        printf("Use: %s archive.vmf\n", argv[0]);
         return 1;
     }
 
     FILE* f = fopen(argv[1], "r");
     if (!f) {
-        printf("No se pudo abrir el archivo: %s\n", argv[1]);
+        printf("Couldn't open file: %s\n", argv[1]);
         return 1;
     }
 
@@ -35,10 +35,16 @@ int main(int argc, char* argv[]) {
                 if (next && next->type == STRING && delim && delim->type == DELIMITER && delim->data == ';') {
                     printf("vector \"%s\" showing\n", next->str);
                 }
+            }else if (tok->type == HIDE && i + 2 < tokens.ptr) {
+                Token* next = get_token_list(&tokens, i + 1);
+                Token* delim = get_token_list(&tokens, i + 2);
+                if (next && next->type == STRING && delim && delim->type == DELIMITER && delim->data == ';') {
+                    printf("vector \"%s\" hidden\n", next->str);
+                }
             }
         }
     } else {
-        printf("Error de parsing\n");
+        printf("Sintax error\n");
     }
 
     // Liberar memoria
